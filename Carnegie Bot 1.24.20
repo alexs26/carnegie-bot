@@ -1,3 +1,7 @@
+#History Bot Centre Term 2020, Jared Foos and Alex Schneider
+#Many thanks to The Pi Hut https://thepihut.com/blogs/raspberry-pi-tutorials/hc-sr04-ultrasonic-range-sensor-on-the-raspberry-pi for the code
+#Also grateful for Professor Toth in helping us with the proper configurations
+
 import RPi.GPIO as GPIO
 import time
 import os
