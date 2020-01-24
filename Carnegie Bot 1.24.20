@@ -1,0 +1,63 @@
+import RPi.GPIO as GPIO
+import time
+import os
+
+GPIO.setmode(GPIO.BCM)
+TRIG = 23
+ECHO = 24
+print("Distance Measurement In Progress")
+GPIO.setup(TRIG,GPIO.OUT)
+GPIO.setup(ECHO,GPIO.IN)
+GPIO.output(TRIG, False)
+
+myCdm1 = 'omxplayer -o alsa bot.wav' #Hello I am bot
+myCdm2 = 'omxplayer -o alsa superintendent.wav' #early life as superintendent
+myCdm3 = 'omxplayer -o alsa carnegie1.mp3' #Gospel of Wealth Clip
+myCdm4 = 'omxplayer -o alsa homestead.wav' #Homestead Strike 1892
+myCdm5 = 'omxplayer -o alsa greatest.wav' #American Steel Industry 1902
+myCdm6 = 'omxplayer -o alsa trainnoise.mp3' #choo choo sound
+myCdm7 = 'omxplayer -o alsa intelligent.wav' #most intelligent in world 
+
+while True:
+    print("Waiting For Sensor To Settle")
+    time.sleep(2)
+    GPIO.output(TRIG, True)
+    time.sleep(0.00001)
+    GPIO.output(TRIG, False)
+    while GPIO.input(ECHO)==0:
+        pulse_start = time.time()
+        print("whileloop1")
+    while GPIO.input(ECHO)==1:
+        print("whileloop2")
+        pulse_end = time.time()
+    pulse_duration = pulse_end - pulse_start
+    distance = pulse_duration * 17150
+    distance = round(distance, 2)
+    print("Distance:",distance,"cm")
+    #poll sensor
+    if distance > 200:
+        #do nothing
+        pass
+    elif distance > 150:
+        print("train noise")
+        os.system(myCdm6) #train noise 
+    elif distance > 115:
+        print("American steel")
+        os.system(myCdm5) #play quote American Steel Industry Quote
+    elif distance > 80:
+        print("Homestead")
+        os.system(myCdm4) #play quote "Homestead Strike 1892"
+    elif distance > 50:
+        print("Gospel of Wealth")
+        os.system(myCdm3) #play sound "Carnegie mp3 file"
+    elif distance > 25:
+        print("Superintendent")
+        os.system(myCdm2) #play superintendent quote
+    elif distance > 1:
+        print("Hello I am Carnegie Bot")
+        os.system(myCdm1) #play hello I am bot
+    else:
+        print("finished")
+        os.system(myCdm7) #play i am the most intelligent  
+    time.sleep(2)
+GPIO.cleanup()
